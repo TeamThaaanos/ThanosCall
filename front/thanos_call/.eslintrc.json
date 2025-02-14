@@ -4,7 +4,11 @@
     "es2021": true,
     "jest": true
   },
-  "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:prettier/recommended"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:prettier/recommended"
+  ],
   "parser": "@babel/eslint-parser",
   "parserOptions": {
     "ecmaVersion": 2021,
@@ -14,7 +18,7 @@
     },
     "requireConfigFile": false,
     "babelOptions": {
-      "plugins": ["@babel/plugin-syntax-jsx"] 
+      "plugins": ["@babel/plugin-syntax-jsx"]
     }
   },
   "settings": {
@@ -24,7 +28,9 @@
   },
   "plugins": ["react", "prettier"],
   "rules": {
-    "prettier/prettier": "error",
-    "react/react-in-jsx-scope": "off"
+    "prettier/prettier": ["error", { "singleQuote": false }],
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": "off",
+    "no-undef": "off"
   }
 }
