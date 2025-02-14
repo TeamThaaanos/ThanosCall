@@ -1,25 +1,13 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+// import Login_Page from './pages/login'
+// import Call_Center_page from "./pages/Call_Center"
+// import DateRangePicker from "./components/CSListManage/DateRangePicker"
+// import DropdownButton from "./components/CSListManage/DropdownButton"
+// import DropdownGroup from "./components/CSListManage/DropdownButtonGroup"
+import FilterBar from "./components/CSListManage/CSList_button_All"
+const App = () => {
+  return <FilterBar />
 }
 
-export default App;
+export default App
