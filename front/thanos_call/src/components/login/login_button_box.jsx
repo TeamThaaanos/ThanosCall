@@ -11,8 +11,11 @@ const LoginButton = ({ onClick }) => {
 
 const styles = {
   button: {
-    width: "16.5%",
+    width: "228px",
     padding: "12px",
+    fontSize: "16px",
+    fontWeight: "bold",
+    textAlign: "center",
     backgroundColor: "#3b82f6",
     color: "white",
     borderRadius: "6px",
