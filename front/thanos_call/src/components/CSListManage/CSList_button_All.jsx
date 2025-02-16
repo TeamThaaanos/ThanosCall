@@ -1,7 +1,7 @@
 import React from "react"
 import DateRangePicker from "./DateRangePicker"
 import DropdownButtonGroup from "./DropdownButtonGroup"
-import SearchBox from "../mingi/SearchBox"
+import SearchBox from "./SearchBox"
 
 const CS_button_bar = () => {
   return (

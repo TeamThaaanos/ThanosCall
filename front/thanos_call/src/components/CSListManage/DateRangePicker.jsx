@@ -93,7 +93,7 @@ const styles = {
   calendarContainer: {
     position: "absolute",
     top: "100%",
-    left: "50%",
+    left: "130%",
     transform: "translateX(-50%)",
     backgroundColor: "white",
     padding: "16px",
