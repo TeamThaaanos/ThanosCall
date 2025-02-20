@@ -1,6 +1,6 @@
 import React from "react"
 import LogoLetter from "../../assets/images/Logo_letter_finger.svg"
-import SearchableDashboard from "../boxes/SearchableDashboard"
+// import SearchableDashboard from "../boxes/SearchableDashboard"
 
 const CSHeader = () => {
   return (
@@ -10,9 +10,7 @@ const CSHeader = () => {
       </div>
 
       <div style={styles.contentWrapper}>
-        <div style={styles.leftBox}>
-          <SearchableDashboard />
-        </div>
+        <div style={styles.leftBox}>{/* <SearchableDashboard /> */}</div>
         <div style={styles.rightBox}></div>
       </div>
     </div>
