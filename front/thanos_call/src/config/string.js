@@ -215,6 +215,7 @@ export const STRINGS = {
       LOADING: "로딩중...",
       ORDER_NUMBER: "주문 번호: ",
       NAME: "성함: ",
+      EMAIL: "이메일: ",
       CONTACT: "연락처: ",
       ADDRESS: "배송지: ",
       PURCHASE_DATE: "구매 일자: ",

@@ -54,19 +54,28 @@ const ReturnExchange = ({ orderId }) => {
         <div style={styles.card}>
           <h3>{STRINGS.BOXES.RETURN_EXCHANGE.CUSTOMER_CONSULT_INFO}</h3>
           <p>
-            {STRINGS.BOXES.RETURN_EXCHANGE.ORDER_STATUS}:{" "}
-            {orderData.order_status}
+            {STRINGS.BOXES.RETURN_EXCHANGE.CS_REQUEST_COUNT.replace(
+              "{count}",
+              orderData.cs_request
+            )}
           </p>
           <p>
-            {STRINGS.BOXES.RETURN_EXCHANGE.ORDER_PRICE}: {orderData.order_price}
-            원
+            {STRINGS.BOXES.RETURN_EXCHANGE.RETURN_REQUEST_COUNT.replace(
+              "{count}",
+              orderData.return
+            )}
           </p>
           <p>
-            {STRINGS.BOXES.RETURN_EXCHANGE.CUSTOMER_EMAIL}: {orderData.customer}
+            {STRINGS.BOXES.RETURN_EXCHANGE.EXCHANGE_REQUEST_COUNT.replace(
+              "{count}",
+              orderData.exchange
+            )}
           </p>
           <p>
-            <strong>{STRINGS.BOXES.ORDER_DETAILS.PURCHASE_DATE}</strong>{" "}
-            {orderData.ordered_time}
+            {STRINGS.BOXES.RETURN_EXCHANGE.INSULT.replace(
+              "{count}",
+              orderData.insult
+            )}
           </p>
           <hr style={styles.separator} />
           <ConsultMemo />

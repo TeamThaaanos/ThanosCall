@@ -22,7 +22,6 @@ const OrderDetails = ({ orderId }) => {
         if (docSnap.exists()) {
           const data = docSnap.data()
 
-          // ✅ Timestamp 변환 추가
           if (data.ordered_time && data.ordered_time.seconds) {
             data.ordered_time = new Date(
               data.ordered_time.seconds * 1000
@@ -56,7 +55,10 @@ const OrderDetails = ({ orderId }) => {
             {STRINGS.BOXES.ORDER_DETAILS.ORDER_NUMBER} {orderId}
           </h3>
           <p>
-            <strong>{STRINGS.BOXES.ORDER_DETAILS.NAME}</strong>{" "}
+            <strong>{STRINGS.BOXES.ORDER_DETAILS.NAME}</strong> {orderData.name}
+          </p>
+          <p>
+            <strong>{STRINGS.BOXES.ORDER_DETAILS.EMAIL}</strong>{" "}
             {orderData.customer}
           </p>
           <p>
