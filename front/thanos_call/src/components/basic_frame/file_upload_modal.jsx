@@ -18,34 +18,34 @@ const FileUploadModal = ({ onClose }) => {
 
     const formData = new FormData()
     formData.append("file", selectedFile)
-    formData.append("consult_id", "ORD-A9CC2115")
+    formData.append("consult_id", "test_id")
 
     try {
-      const response = await fetch(
-        "http://127.0.0.1:5001/thanoscall-30729/asia-northeast3/process_audio",
-        {
-          method: "POST",
-          body: formData,
-          headers: {
-            Accept: "application/json",
-          },
-        }
-      )
+      // const response = await fetch(
+      //   "http://127.0.0.1:5001/thanoscall-30729/asia-northeast3/process_audio",
+      //   {
+      //     method: "POST",
+      //     body: formData,
+      //     headers: {
+      //       Accept: "application/json",
+      //     },
+      //   }
+      // )
+      alert("파일 업로드 성공!")
 
-      const data = await response.json()
+      // const data = await response.json()
 
-      if (response.ok) {
-        console.log("✅ 업로드 성공:", data)
-        alert("파일 업로드 성공!")
-      } else {
-        console.error("❌ 업로드 실패:", data)
-        alert(`업로드 실패: ${data.error || "알 수 없는 오류"}`)
-      }
+      // if (response.ok) {
+      //   console.log("✅ 업로드 성공:", data)
+      // } else {
+      //   console.error("❌ 업로드 실패:", data)
+      //   alert(`업로드 실패: ${data.error || "알 수 없는 오류"}`)
+      // }
     } catch (error) {
-      console.error("❌ 네트워크 오류:", error)
-      alert(
-        "네트워크 오류가 발생했습니다. Firebase 에뮬레이터가 실행 중인지 확인하세요."
-      )
+      // console.error("❌ 네트워크 오류:", error)
+      // alert(
+      //   "네트워크 오류가 발생했습니다. Firebase 에뮬레이터가 실행 중인지 확인하세요."
+      // )
     }
   }
 

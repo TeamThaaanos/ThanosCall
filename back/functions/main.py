@@ -12,7 +12,7 @@ def make_response(data: dict, status: int = 200):
         headers={
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Methods": "POST, OPTIONS",
-            "Access-Control-Allow-Headers": "Content-Type",
+            "Access-Control-Allow-Headers": "Content-Type, Authorization",
         },
     )
 
@@ -37,5 +37,12 @@ def process_audio(req: Request) -> https_fn.Response:
 
         return make_response(result)
 
+    except ValueError as ve:
+        return make_response({"error": f"잘못된 입력: {str(ve)}"}, status=400)
+
+    except FileNotFoundError as fe:
+        return make_response({"error": f"파일을 찾을 수 없음: {str(fe)}"}, status=404)
+
     except Exception as e:
-        return make_response({"error": repr(e)}, status=500)
+        return make_response({"error": f"서버 오류: {repr(e)}"}, status=500)
+    
