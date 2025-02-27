@@ -1,32 +1,38 @@
 {
   "firestore": {
-    "rules": "firestore.rules",
-    "indexes": "firestore.indexes.json"
+      "rules": "firestore.rules",
+      "indexes": "firestore.indexes.json"
   },
   "functions": {
-    "source": "functions",
-    "runtime": "python310",
-    "codebase": "default",
-    "ignore": [
-      "venv",
-      ".git",
-      "firebase-debug.log",
-      "firebase-debug.*.log",
-      "*.local"
-    ]
+      "source": "functions",
+      "runtime": "python310",
+      "codebase": "default",
+      "ignore": [
+          "venv",
+          ".git",
+          "firebase-debug.log",
+          "firebase-debug.*.log",
+          "*.local"
+      ],
+      "functionConfig": {
+          "process_audio": {
+              "memory": "2GB",
+              "timeoutSeconds": 300
+          }
+      }
   },
   "storage": {
-    "rules": "storage.rules"
+      "rules": "storage.rules"
   },
   "emulators": {
-    "functions": {
-      "port": 5001
-    },
-    "firestore": {
-      "port": 8080
-    },
-    "storage": {
-      "port": 9199
-    }
+      "functions": {
+          "port": 5001
+      },
+      "firestore": {
+          "port": 8080
+      },
+      "storage": {
+          "port": 9199
+      }
   }
 }

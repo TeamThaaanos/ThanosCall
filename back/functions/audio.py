@@ -1,9 +1,9 @@
 from dotenv import load_dotenv
 import os
-import json
 from openai import OpenAI
 from werkzeug.utils import secure_filename
 from firebase_config import bucket, db  # Firestore 추가
+from summary import process_summary # ✅ 요약 기능 추가
 
 # ✅ 환경 변수 로드
 load_dotenv()
@@ -33,7 +33,7 @@ def upload_audio_file(file, consult_id):
         blob = bucket.blob(storage_path)
         blob.upload_from_file(file)
 
-        file_url = f"http://127.0.0.1:9199/{bucket.name}/{storage_path}"  # ✅ Firebase Emulator 환경 고려
+        file_url = f"http://127.0.0.1:9199/{bucket.name}/{storage_path}"  # ✅ Firebase Emulator 고려
 
         return file_url
     except Exception as e:
@@ -43,7 +43,7 @@ def upload_audio_file(file, consult_id):
 def transcribe_audio(file_url, consult_id):
     """Firebase Storage에서 직접 음성 파일을 다운로드하여 Whisper API로 변환"""
     try:
-        temp_audio_path = f"temp_audio_{consult_id}.wav"  # ✅ 파일 확장자 유지
+        temp_audio_path = f"/tmp/temp_audio_{consult_id}.wav"
 
         # 🔹 Storage에서 직접 다운로드 (Firebase SDK 사용)
         storage_path = file_url.split(f"http://127.0.0.1:9199/{bucket.name}/")[-1]  # 🔹 실제 Storage 내부 경로 추출
@@ -54,11 +54,7 @@ def transcribe_audio(file_url, consult_id):
 
         blob.download_to_filename(temp_audio_path)  # 🔹 Storage에서 직접 파일 다운로드
 
-        # ✅ 파일이 정상적으로 다운로드되었는지 확인
-        if not os.path.exists(temp_audio_path):
-            raise FileNotFoundError(f"파일이 존재하지 않습니다: {temp_audio_path}")
-
-        # 🔹 Whisper API 호출
+        # ✅ Whisper API 호출
         with open(temp_audio_path, "rb") as audio_file:
             transcription = openAI_client.audio.transcriptions.create(
                 model="whisper-1",
@@ -66,9 +62,7 @@ def transcribe_audio(file_url, consult_id):
             )
 
         transcript_text = transcription.text
-
-        # 🔹 임시 파일 삭제
-        os.remove(temp_audio_path)
+        os.remove(temp_audio_path)  # ✅ 임시 파일 삭제
 
         return transcript_text
     except Exception as e:
@@ -81,7 +75,7 @@ def save_text_to_storage(consult_id, transcript_text):
         text_storage_path = f"transcripts/{consult_id}.txt"
         text_blob = bucket.blob(text_storage_path)
         text_blob.upload_from_string(transcript_text, content_type="text/plain")
-        text_file_url = f"http://127.0.0.1:9199/{bucket.name}/{text_storage_path}"  # ✅ Firebase Emulator 환경 고려
+        text_file_url = f"http://127.0.0.1:9199/{bucket.name}/{text_storage_path}"  # ✅ Firebase Emulator 고려
         return text_file_url
     except Exception as e:
         raise Exception(f"텍스트 저장 실패: {str(e)}")
@@ -90,12 +84,20 @@ def save_text_to_storage(consult_id, transcript_text):
 def save_to_firestore(consult_id, file_url, transcript_text, text_file_url):
     """음성 파일과 변환된 텍스트 정보를 Firestore에 저장"""
     try:
-        doc_ref = db.collection("transcripts").document(consult_id)
+        doc_ref = db.collection("consult").document(consult_id)
         doc_ref.set({
-            "consult_id": consult_id,
-            "file_url": file_url,
-            "transcript_text": transcript_text,
-            "text_file_url": text_file_url
+            "category": "교환",
+            "consult_add": "",
+            "consult_brief": "", # 요약된 텍스트
+            "consult_details": text_file_url, # 전체 텍스트
+            "consult_length" : "", # 음성파일 길이
+            "consult_progress" : "완료",
+            "consult_time" : "", # 함수가 실행된 시간
+            "consult_title" : "사이즈 문제로 인한 상품 교환",
+            "consulter_id" : "C-123456789",
+            "customer" : "김시우",
+            "order_id" : consult_id,
+            "product_id" : "Hoodie",
         })
         return doc_ref.id
     except Exception as e:
@@ -116,6 +118,9 @@ def process_audio_file(file, consult_id):
 
         # 4️⃣ Firestore에 데이터 저장
         save_to_firestore(consult_id, file_url, transcript_text, text_file_url)
+
+        # 5️⃣ STT 변환 완료 후 자동으로 요약 실행 ✅
+        process_summary(consult_id)
 
         return {
             "message": "파일 변환 및 저장 성공",

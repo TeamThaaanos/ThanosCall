@@ -18,7 +18,7 @@ const FileUploadModal = ({ onClose }) => {
 
     const formData = new FormData()
     formData.append("file", selectedFile)
-    formData.append("consult_id", "test_id")
+    formData.append("consult_id", "ORD-A9CC2115")
 
     try {
       const response = await fetch(
